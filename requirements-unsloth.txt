@@ -1,0 +1,4 @@
+# Optional extras — install after base requirements if Unsloth works on your machine:
+#   pip install "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
+# On Windows, prefer the PEFT path (configs/train_qlora_peft.yaml) if Unsloth install fails.
+unsloth

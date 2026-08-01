@@ -1,0 +1,28 @@
+# Chatbot Arena filtering + splits
+dataset_id: lmsys/chatbot_arena_conversations
+language: English
+single_turn_only: true
+drop_ties: true
+max_response_chars: 1800
+max_question_chars: 800
+seed: 42
+
+# Final recommended sizes
+n_train: 3000
+n_val: 400
+n_test: 600
+
+# Smoke / week-1 subset (also written)
+n_smoke_train: 500
+n_week1: 1000
+
+output_dir: data/processed
+raw_dir: data/raw
+
+# External challenge set
+judgebench:
+  enabled: true
+  # Official repo / HF mirror — script tries HF first, then GitHub raw samples
+  hf_dataset: ScalerLab/JudgeBench
+  local_fallback: data/raw/judgebench_sample.jsonl
+  max_examples: 500

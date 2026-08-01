@@ -1,0 +1,37 @@
+{
+  "n": 600,
+  "n_valid": 600,
+  "accuracy": 0.6083333333333333,
+  "macro_f1": 0.6076521739130435,
+  "invalid_output_rate": 0.0,
+  "confusion": {
+    "labels": [
+      "A",
+      "B"
+    ],
+    "matrix": [
+      [
+        195,
+        100
+      ],
+      [
+        135,
+        170
+      ]
+    ]
+  },
+  "pred_distribution": {
+    "B": 270,
+    "A": 330
+  },
+  "label_distribution": {
+    "A": 295,
+    "B": 305
+  },
+  "n_comparable": 600,
+  "position_consistency": 0.6083333333333333,
+  "conflict_rate": 0.39166666666666666,
+  "latency_mean_sec": 0.5148006182501801,
+  "latency_total_sec": 617.7607419002161,
+  "peak_vram_gb": 2.127652645111084
+}

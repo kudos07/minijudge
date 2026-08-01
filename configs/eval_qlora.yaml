@@ -1,0 +1,21 @@
+experiment_name: eval_qlora
+model_name: Qwen/Qwen3-1.7B
+adapter_path: outputs/qlora_1.7b
+load_in_4bit: true
+
+data_path: data/processed/arena_test.jsonl
+judgebench_path: data/processed/judgebench.jsonl
+max_examples: null
+
+max_new_tokens: 8
+temperature: 0.0
+do_sample: false
+max_seq_length: 1024
+
+position_swap: true
+majority_votes: 1
+majority_temperature: 0.0
+
+batch_report: true
+output_dir: outputs/eval_qlora
+device_map: auto

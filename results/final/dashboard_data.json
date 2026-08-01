@@ -1,0 +1,849 @@
+{
+  "generated_at": "2026-08-01T20:05:07.154518+00:00",
+  "experiments": [
+    {
+      "id": "baseline_0.6b",
+      "display_name": "0.6B prompt-only",
+      "model_name": "Qwen/Qwen3-0.6B",
+      "adapter_path": null,
+      "config": {
+        "position_swap": true,
+        "majority_votes": 1,
+        "temperature": 0.0
+      },
+      "path": "outputs/baseline_0.6b/summary.json",
+      "datasets": {
+        "arena_test": {
+          "accuracy": 0.49248747913188645,
+          "macro_f1": 0.32997762863534674,
+          "position_consistency": 0.0,
+          "conflict_rate": 1.0,
+          "invalid_output_rate": 0.0016666666666666668,
+          "latency_mean_sec": 0.25652044658427864,
+          "peak_vram_gb": 0.9366211891174316,
+          "n": 600,
+          "n_valid": 599,
+          "n_comparable": 599,
+          "confusion": {
+            "labels": [
+              "A",
+              "B"
+            ],
+            "matrix": [
+              [
+                295,
+                0
+              ],
+              [
+                304,
+                0
+              ]
+            ]
+          },
+          "pred_distribution": {
+            "A": 599
+          },
+          "label_distribution": {
+            "A": 295,
+            "B": 304
+          }
+        }
+      },
+      "peak_vram_gb": 0.9366211891174316
+    },
+    {
+      "id": "baseline_1.7b",
+      "display_name": "1.7B prompt-only",
+      "model_name": "Qwen/Qwen3-1.7B",
+      "adapter_path": null,
+      "config": {
+        "position_swap": true,
+        "majority_votes": 1,
+        "temperature": 0.0
+      },
+      "path": "outputs/baseline_1.7b/summary.json",
+      "datasets": {
+        "arena_test": {
+          "accuracy": 0.49581239530988275,
+          "macro_f1": 0.4903152610156992,
+          "position_consistency": 0.288107202680067,
+          "conflict_rate": 0.711892797319933,
+          "invalid_output_rate": 0.005,
+          "latency_mean_sec": 0.5697089738342038,
+          "peak_vram_gb": 2.127652645111084,
+          "n": 600,
+          "n_valid": 597,
+          "n_comparable": 597,
+          "confusion": {
+            "labels": [
+              "A",
+              "B"
+            ],
+            "matrix": [
+              [
+                179,
+                114
+              ],
+              [
+                187,
+                117
+              ]
+            ]
+          },
+          "pred_distribution": {
+            "A": 366,
+            "B": 231
+          },
+          "label_distribution": {
+            "A": 293,
+            "B": 304
+          }
+        }
+      },
+      "peak_vram_gb": 2.127652645111084
+    },
+    {
+      "id": "qlora_1.7b",
+      "display_name": "1.7B QLoRA (train only)",
+      "model_name": "Qwen/Qwen3-1.7B",
+      "adapter_path": null,
+      "config": {},
+      "path": "outputs/qlora_1.7b/train_metrics.json",
+      "datasets": {},
+      "train": {
+        "train_runtime_sec": 28804.520813,
+        "peak_vram_gb": 3.222107410430908,
+        "n_train": 3000,
+        "backend": "peft",
+        "train_loss": 0.9993398106892903
+      }
+    },
+    {
+      "id": "eval_qlora",
+      "display_name": "1.7B QLoRA + swap",
+      "model_name": "Qwen/Qwen3-1.7B",
+      "adapter_path": "outputs/qlora_1.7b",
+      "config": {
+        "position_swap": true,
+        "majority_votes": 1,
+        "temperature": 0.0
+      },
+      "path": "outputs/eval_qlora/summary.json",
+      "datasets": {
+        "arena_test": {
+          "accuracy": 0.6083333333333333,
+          "macro_f1": 0.6076521739130435,
+          "position_consistency": 0.6083333333333333,
+          "conflict_rate": 0.39166666666666666,
+          "invalid_output_rate": 0.0,
+          "latency_mean_sec": 0.5148006182501801,
+          "peak_vram_gb": 2.127652645111084,
+          "n": 600,
+          "n_valid": 600,
+          "n_comparable": 600,
+          "confusion": {
+            "labels": [
+              "A",
+              "B"
+            ],
+            "matrix": [
+              [
+                195,
+                100
+              ],
+              [
+                135,
+                170
+              ]
+            ]
+          },
+          "pred_distribution": {
+            "B": 270,
+            "A": 330
+          },
+          "label_distribution": {
+            "A": 295,
+            "B": 305
+          }
+        },
+        "judgebench": {
+          "accuracy": 0.75,
+          "macro_f1": 0.42857142857142855,
+          "position_consistency": 0.0,
+          "conflict_rate": 1.0,
+          "invalid_output_rate": 0.0,
+          "latency_mean_sec": 0.2982271250020858,
+          "peak_vram_gb": 2.127652645111084,
+          "n": 4,
+          "n_valid": 4,
+          "n_comparable": 4,
+          "confusion": {
+            "labels": [
+              "A",
+              "B"
+            ],
+            "matrix": [
+              [
+                3,
+                0
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          },
+          "pred_distribution": {
+            "A": 4
+          },
+          "label_distribution": {
+            "A": 3,
+            "B": 1
+          }
+        }
+      },
+      "peak_vram_gb": 2.127652645111084
+    },
+    {
+      "id": "eval_qlora_reliability",
+      "display_name": "1.7B QLoRA + swap + vote",
+      "model_name": "Qwen/Qwen3-1.7B",
+      "adapter_path": "outputs/qlora_1.7b",
+      "config": {
+        "position_swap": true,
+        "majority_votes": 3,
+        "temperature": 0.2
+      },
+      "path": "outputs/eval_qlora_reliability/summary.json",
+      "datasets": {
+        "arena_test": {
+          "accuracy": 0.5916666666666667,
+          "macro_f1": 0.591611080397054,
+          "position_consistency": 0.6116666666666667,
+          "conflict_rate": 0.3883333333333333,
+          "invalid_output_rate": 0.0,
+          "latency_mean_sec": 0.5471691216112272,
+          "peak_vram_gb": 2.127652645111084,
+          "n": 600,
+          "n_valid": 600,
+          "n_comparable": 600,
+          "confusion": {
+            "labels": [
+              "A",
+              "B"
+            ],
+            "matrix": [
+              [
+                181,
+                114
+              ],
+              [
+                131,
+                174
+              ]
+            ]
+          },
+          "pred_distribution": {
+            "B": 288,
+            "A": 312
+          },
+          "label_distribution": {
+            "A": 295,
+            "B": 305
+          }
+        },
+        "judgebench": {
+          "accuracy": 0.75,
+          "macro_f1": 0.7333333333333334,
+          "position_consistency": 0.25,
+          "conflict_rate": 0.75,
+          "invalid_output_rate": 0.0,
+          "latency_mean_sec": 0.3084484416643439,
+          "peak_vram_gb": 2.127652645111084,
+          "n": 4,
+          "n_valid": 4,
+          "n_comparable": 4,
+          "confusion": {
+            "labels": [
+              "A",
+              "B"
+            ],
+            "matrix": [
+              [
+                2,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ]
+          },
+          "pred_distribution": {
+            "B": 2,
+            "A": 2
+          },
+          "label_distribution": {
+            "A": 3,
+            "B": 1
+          }
+        }
+      },
+      "peak_vram_gb": 2.127652645111084
+    },
+    {
+      "id": "eval_bias",
+      "display_name": "Bias: QLoRA fine-tuned",
+      "model_name": "Qwen/Qwen3-1.7B",
+      "adapter_path": "outputs/qlora_1.7b",
+      "config": {
+        "position_swap": false,
+        "majority_votes": 1,
+        "temperature": 0.0
+      },
+      "path": "outputs/eval_bias/summary.json",
+      "datasets": {
+        "bias_suite": {
+          "accuracy": 0.4266666666666667,
+          "macro_f1": 0.3258779264214047,
+          "invalid_output_rate": 0.0,
+          "latency_mean_sec": 0.23128795133340949,
+          "peak_vram_gb": 2.127652645111084,
+          "n": 150,
+          "n_valid": 150,
+          "confusion": {
+            "labels": [
+              "A",
+              "B"
+            ],
+            "matrix": [
+              [
+                61,
+                64
+              ],
+              [
+                22,
+                3
+              ]
+            ]
+          },
+          "pred_distribution": {
+            "A": 83,
+            "B": 67
+          },
+          "label_distribution": {
+            "B": 25,
+            "A": 125
+          },
+          "by_bias_type": {
+            "citation_bias": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 0.48,
+              "macro_f1": 0.32432432432432434,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    12,
+                    13
+                  ],
+                  [
+                    0,
+                    0
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "B": 13,
+                "A": 12
+              },
+              "label_distribution": {
+                "A": 25
+              }
+            },
+            "formatting_bias": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 1.0,
+              "macro_f1": 0.5,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    25,
+                    0
+                  ],
+                  [
+                    0,
+                    0
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "A": 25
+              },
+              "label_distribution": {
+                "A": 25
+              }
+            },
+            "irrelevant_statement_attack": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 0.24,
+              "macro_f1": 0.1935483870967742,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    6,
+                    19
+                  ],
+                  [
+                    0,
+                    0
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "B": 19,
+                "A": 6
+              },
+              "label_distribution": {
+                "A": 25
+              }
+            },
+            "length_bias": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 0.0,
+              "macro_f1": 0.0,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    0,
+                    25
+                  ],
+                  [
+                    0,
+                    0
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "B": 25
+              },
+              "label_distribution": {
+                "A": 25
+              }
+            },
+            "majority_opinion_attack": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 0.72,
+              "macro_f1": 0.4186046511627907,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    18,
+                    7
+                  ],
+                  [
+                    0,
+                    0
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "A": 18,
+                "B": 7
+              },
+              "label_distribution": {
+                "A": 25
+              }
+            },
+            "position_bias": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 0.12,
+              "macro_f1": 0.10714285714285714,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    22,
+                    3
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "A": 22,
+                "B": 3
+              },
+              "label_distribution": {
+                "B": 25
+              }
+            }
+          }
+        }
+      },
+      "peak_vram_gb": 2.127652645111084
+    },
+    {
+      "id": "eval_bias_base",
+      "display_name": "Bias: 1.7B prompt-only",
+      "model_name": "Qwen/Qwen3-1.7B",
+      "adapter_path": null,
+      "config": {
+        "position_swap": false,
+        "majority_votes": 1,
+        "temperature": 0.0
+      },
+      "path": "outputs/eval_bias/base/summary.json",
+      "datasets": {
+        "bias_suite": {
+          "accuracy": 0.6266666666666667,
+          "macro_f1": 0.5227272727272727,
+          "invalid_output_rate": 0.0,
+          "latency_mean_sec": 0.15601582866656827,
+          "peak_vram_gb": 2.135587215423584,
+          "n": 150,
+          "n_valid": 150,
+          "confusion": {
+            "labels": [
+              "A",
+              "B"
+            ],
+            "matrix": [
+              [
+                82,
+                43
+              ],
+              [
+                13,
+                12
+              ]
+            ]
+          },
+          "pred_distribution": {
+            "A": 95,
+            "B": 55
+          },
+          "label_distribution": {
+            "B": 25,
+            "A": 125
+          },
+          "by_bias_type": {
+            "citation_bias": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 0.2,
+              "macro_f1": 0.16666666666666666,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    5,
+                    20
+                  ],
+                  [
+                    0,
+                    0
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "B": 20,
+                "A": 5
+              },
+              "label_distribution": {
+                "A": 25
+              }
+            },
+            "formatting_bias": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 1.0,
+              "macro_f1": 0.5,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    25,
+                    0
+                  ],
+                  [
+                    0,
+                    0
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "A": 25
+              },
+              "label_distribution": {
+                "A": 25
+              }
+            },
+            "irrelevant_statement_attack": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 1.0,
+              "macro_f1": 0.5,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    25,
+                    0
+                  ],
+                  [
+                    0,
+                    0
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "A": 25
+              },
+              "label_distribution": {
+                "A": 25
+              }
+            },
+            "length_bias": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 0.4,
+              "macro_f1": 0.2857142857142857,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    10,
+                    15
+                  ],
+                  [
+                    0,
+                    0
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "A": 10,
+                "B": 15
+              },
+              "label_distribution": {
+                "A": 25
+              }
+            },
+            "majority_opinion_attack": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 0.68,
+              "macro_f1": 0.40476190476190477,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    17,
+                    8
+                  ],
+                  [
+                    0,
+                    0
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "A": 17,
+                "B": 8
+              },
+              "label_distribution": {
+                "A": 25
+              }
+            },
+            "position_bias": {
+              "n": 25,
+              "n_valid": 25,
+              "accuracy": 0.48,
+              "macro_f1": 0.32432432432432434,
+              "invalid_output_rate": 0.0,
+              "confusion": {
+                "labels": [
+                  "A",
+                  "B"
+                ],
+                "matrix": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    13,
+                    12
+                  ]
+                ]
+              },
+              "pred_distribution": {
+                "A": 13,
+                "B": 12
+              },
+              "label_distribution": {
+                "B": 25
+              }
+            }
+          }
+        }
+      },
+      "peak_vram_gb": 2.135587215423584
+    }
+  ],
+  "comparison": [
+    {
+      "experiment": "0.6B prompt-only",
+      "id": "baseline_0.6b",
+      "n": 600,
+      "arena_acc": 0.49248747913188645,
+      "arena_f1": 0.32997762863534674,
+      "pos_consistency": 0.0,
+      "conflict_rate": 1.0,
+      "invalid_rate": 0.0016666666666666668,
+      "judgebench_acc": null,
+      "judgebench_n": null,
+      "judgebench_note": null,
+      "bias_acc": null,
+      "latency_sec": 0.25652044658427864,
+      "peak_vram_gb": 0.9366211891174316
+    },
+    {
+      "experiment": "1.7B prompt-only",
+      "id": "baseline_1.7b",
+      "n": 600,
+      "arena_acc": 0.49581239530988275,
+      "arena_f1": 0.4903152610156992,
+      "pos_consistency": 0.288107202680067,
+      "conflict_rate": 0.711892797319933,
+      "invalid_rate": 0.005,
+      "judgebench_acc": null,
+      "judgebench_n": null,
+      "judgebench_note": null,
+      "bias_acc": null,
+      "latency_sec": 0.5697089738342038,
+      "peak_vram_gb": 2.127652645111084
+    },
+    {
+      "experiment": "1.7B QLoRA + swap",
+      "id": "eval_qlora",
+      "n": 600,
+      "arena_acc": 0.6083333333333333,
+      "arena_f1": 0.6076521739130435,
+      "pos_consistency": 0.6083333333333333,
+      "conflict_rate": 0.39166666666666666,
+      "invalid_rate": 0.0,
+      "judgebench_acc": 0.75,
+      "judgebench_n": 4,
+      "judgebench_note": "n=4 seed only \u2014 not real JudgeBench",
+      "bias_acc": null,
+      "latency_sec": 0.5148006182501801,
+      "peak_vram_gb": 2.127652645111084
+    },
+    {
+      "experiment": "1.7B QLoRA + swap + vote",
+      "id": "eval_qlora_reliability",
+      "n": 600,
+      "arena_acc": 0.5916666666666667,
+      "arena_f1": 0.591611080397054,
+      "pos_consistency": 0.6116666666666667,
+      "conflict_rate": 0.3883333333333333,
+      "invalid_rate": 0.0,
+      "judgebench_acc": 0.75,
+      "judgebench_n": 4,
+      "judgebench_note": "n=4 seed only \u2014 not real JudgeBench",
+      "bias_acc": null,
+      "latency_sec": 0.5471691216112272,
+      "peak_vram_gb": 2.127652645111084
+    },
+    {
+      "experiment": "Bias: 1.7B prompt-only",
+      "id": "eval_bias_base",
+      "n": 150,
+      "arena_acc": null,
+      "arena_f1": null,
+      "pos_consistency": null,
+      "conflict_rate": null,
+      "invalid_rate": null,
+      "judgebench_acc": null,
+      "judgebench_n": null,
+      "judgebench_note": null,
+      "bias_acc": 0.6266666666666667,
+      "latency_sec": 0.15601582866656827,
+      "peak_vram_gb": 2.135587215423584
+    },
+    {
+      "experiment": "Bias: QLoRA fine-tuned",
+      "id": "eval_bias",
+      "n": 150,
+      "arena_acc": null,
+      "arena_f1": null,
+      "pos_consistency": null,
+      "conflict_rate": null,
+      "invalid_rate": null,
+      "judgebench_acc": null,
+      "judgebench_n": null,
+      "judgebench_note": null,
+      "bias_acc": 0.4266666666666667,
+      "latency_sec": 0.23128795133340949,
+      "peak_vram_gb": 2.127652645111084
+    }
+  ]
+}

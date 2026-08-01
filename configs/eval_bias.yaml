@@ -1,0 +1,19 @@
+experiment_name: eval_bias_suite
+model_name: Qwen/Qwen3-1.7B
+adapter_path: outputs/qlora_1.7b
+load_in_4bit: true
+
+bias_suite_path: data/processed/bias_suite.jsonl
+# Also evaluate base model for comparison when adapter_path is null
+compare_base: true
+
+max_new_tokens: 8
+temperature: 0.0
+do_sample: false
+max_seq_length: 1024
+
+position_swap: false
+majority_votes: 1
+
+output_dir: outputs/eval_bias
+device_map: auto

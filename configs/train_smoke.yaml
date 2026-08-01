@@ -1,0 +1,41 @@
+# Pipeline verification run — must fit in ~6 GB VRAM
+experiment_name: smoke_qlora_1.7b
+model_name: Qwen/Qwen3-1.7B
+backend: peft  # peft | unsloth
+
+load_in_4bit: true
+max_seq_length: 512
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 8
+gradient_checkpointing: true
+
+lora_rank: 8
+lora_alpha: 16
+lora_dropout: 0.0
+lora_target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+
+learning_rate: 0.0002
+num_train_epochs: 1
+warmup_ratio: 0.05
+weight_decay: 0.01
+optim: paged_adamw_8bit
+fp16: false
+bf16: true
+auto_precision: true
+logging_steps: 10
+save_steps: 100
+eval_steps: 50
+max_train_examples: 500
+
+train_path: data/processed/arena_smoke_train.jsonl
+val_path: data/processed/arena_val.jsonl
+output_dir: outputs/smoke_qlora_1.7b
+seed: 42
+report_to: none

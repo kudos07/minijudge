@@ -1,0 +1,214 @@
+{
+  "n": 150,
+  "n_valid": 150,
+  "accuracy": 0.4266666666666667,
+  "macro_f1": 0.3258779264214047,
+  "invalid_output_rate": 0.0,
+  "confusion": {
+    "labels": [
+      "A",
+      "B"
+    ],
+    "matrix": [
+      [
+        61,
+        64
+      ],
+      [
+        22,
+        3
+      ]
+    ]
+  },
+  "pred_distribution": {
+    "A": 83,
+    "B": 67
+  },
+  "label_distribution": {
+    "B": 25,
+    "A": 125
+  },
+  "latency_mean_sec": 0.23128795133340949,
+  "latency_total_sec": 34.69319270001142,
+  "peak_vram_gb": 2.127652645111084,
+  "by_bias_type": {
+    "citation_bias": {
+      "n": 25,
+      "n_valid": 25,
+      "accuracy": 0.48,
+      "macro_f1": 0.32432432432432434,
+      "invalid_output_rate": 0.0,
+      "confusion": {
+        "labels": [
+          "A",
+          "B"
+        ],
+        "matrix": [
+          [
+            12,
+            13
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "pred_distribution": {
+        "B": 13,
+        "A": 12
+      },
+      "label_distribution": {
+        "A": 25
+      }
+    },
+    "formatting_bias": {
+      "n": 25,
+      "n_valid": 25,
+      "accuracy": 1.0,
+      "macro_f1": 0.5,
+      "invalid_output_rate": 0.0,
+      "confusion": {
+        "labels": [
+          "A",
+          "B"
+        ],
+        "matrix": [
+          [
+            25,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "pred_distribution": {
+        "A": 25
+      },
+      "label_distribution": {
+        "A": 25
+      }
+    },
+    "irrelevant_statement_attack": {
+      "n": 25,
+      "n_valid": 25,
+      "accuracy": 0.24,
+      "macro_f1": 0.1935483870967742,
+      "invalid_output_rate": 0.0,
+      "confusion": {
+        "labels": [
+          "A",
+          "B"
+        ],
+        "matrix": [
+          [
+            6,
+            19
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "pred_distribution": {
+        "B": 19,
+        "A": 6
+      },
+      "label_distribution": {
+        "A": 25
+      }
+    },
+    "length_bias": {
+      "n": 25,
+      "n_valid": 25,
+      "accuracy": 0.0,
+      "macro_f1": 0.0,
+      "invalid_output_rate": 0.0,
+      "confusion": {
+        "labels": [
+          "A",
+          "B"
+        ],
+        "matrix": [
+          [
+            0,
+            25
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "pred_distribution": {
+        "B": 25
+      },
+      "label_distribution": {
+        "A": 25
+      }
+    },
+    "majority_opinion_attack": {
+      "n": 25,
+      "n_valid": 25,
+      "accuracy": 0.72,
+      "macro_f1": 0.4186046511627907,
+      "invalid_output_rate": 0.0,
+      "confusion": {
+        "labels": [
+          "A",
+          "B"
+        ],
+        "matrix": [
+          [
+            18,
+            7
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "pred_distribution": {
+        "A": 18,
+        "B": 7
+      },
+      "label_distribution": {
+        "A": 25
+      }
+    },
+    "position_bias": {
+      "n": 25,
+      "n_valid": 25,
+      "accuracy": 0.12,
+      "macro_f1": 0.10714285714285714,
+      "invalid_output_rate": 0.0,
+      "confusion": {
+        "labels": [
+          "A",
+          "B"
+        ],
+        "matrix": [
+          [
+            0,
+            0
+          ],
+          [
+            22,
+            3
+          ]
+        ]
+      },
+      "pred_distribution": {
+        "A": 22,
+        "B": 3
+      },
+      "label_distribution": {
+        "B": 25
+      }
+    }
+  }
+}

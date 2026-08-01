@@ -1,0 +1,22 @@
+experiment_name: eval_qlora_reliability
+model_name: Qwen/Qwen3-1.7B
+adapter_path: outputs/qlora_1.7b
+load_in_4bit: true
+
+data_path: data/processed/arena_test.jsonl
+judgebench_path: data/processed/judgebench.jsonl
+max_examples: null
+
+max_new_tokens: 8
+temperature: 0.2
+do_sample: true
+max_seq_length: 1024
+
+# A vs B x3 + B vs A x3 → majority
+position_swap: true
+majority_votes: 3
+majority_temperature: 0.2
+
+batch_report: true
+output_dir: outputs/eval_qlora_reliability
+device_map: auto

@@ -1,0 +1,17 @@
+{
+  "backend": "peft",
+  "model_name": "Qwen/Qwen3-1.7B",
+  "output_dir": "outputs\\qlora_1.7b",
+  "train_runtime_sec": 28804.520813,
+  "train_loss": 0.9993398106892903,
+  "metrics": {
+    "train_runtime": 28780.9843,
+    "train_samples_per_second": 0.208,
+    "train_steps_per_second": 0.026,
+    "total_flos": 2.141477893704499e+16,
+    "train_loss": 0.9993398106892903,
+    "epoch": 2.0
+  },
+  "peak_vram_gb": 3.222107410430908,
+  "n_train": 3000
+}
