@@ -1,4 +1,4 @@
-# Full QLoRA run for RTX 4050 6GB — conservative seq length
+# Full QLoRA run — conservative settings for ~6–8 GB VRAM
 experiment_name: qlora_1.7b
 model_name: Qwen/Qwen3-1.7B
 backend: peft  # switch to unsloth if installed

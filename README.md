@@ -4,7 +4,7 @@
 
 **Research question:** How much do QLoRA fine-tuning, position swapping, and majority voting improve the accuracy and reliability of a 1.7B LLM-as-a-Judge?
 
-A fully local, $0 LLM-as-a-Judge experiment on Chatbot Arena preferences + JudgeBench — no paid APIs.
+A fully local, $0 LLM-as-a-Judge experiment on Chatbot Arena preferences + a synthetic bias suite (and optional JudgeBench) — no paid APIs.
 
 | Version | Description |
 |---|---|
@@ -13,102 +13,89 @@ A fully local, $0 LLM-as-a-Judge experiment on Chatbot Arena preferences + Judge
 | Qwen3-1.7B + QLoRA | Fine-tuned judge |
 | Qwen3-1.7B + QLoRA + reliability | Position swap + majority vote |
 
-> **Your hardware note:** Detected **RTX 4050 Laptop (~6 GB VRAM)**. Configs in `configs/` are tuned for 6 GB (shorter sequences, batch size 1, 4-bit QLoRA). The original plan assumed 8 GB; everything still works, just keep `max_seq_length ≤ 768` and avoid the optional 4B stretch until you verify VRAM headroom.
+## Hardware
+
+Designed for **consumer NVIDIA GPUs (~6–8 GB VRAM)** using 4-bit QLoRA:
+
+- `per_device_train_batch_size: 1`
+- `gradient_accumulation_steps: 8`
+- `max_seq_length: 512–768`
+- Prefer **bf16** on RTX 40-series when available
+
+Larger GPUs can raise sequence length / batch size in `configs/`. Start with the smoke config before a full train.
 
 ---
 
-## Step-by-step roadmap
+## Quick start
 
-### Step 0 — Environment (once)
+### 0. Environment
 
-```powershell
-cd c:\Users\saran\Videos\LLM-as-a-judge
+```bash
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+# Windows: .\.venv\Scripts\Activate.ps1
+# Linux/macOS: source .venv/bin/activate
+
 pip install -U pip
 pip install -r requirements.txt
+pip install -e .
 ```
 
-If Unsloth fails on Windows, use the PEFT fallback path (`configs/train_qlora_peft.yaml`) — training still works without Unsloth.
+Install a CUDA build of PyTorch that matches your system (see [pytorch.org](https://pytorch.org)). On Windows you can also use `scripts/00_install_windows.ps1`.
 
-### Step 1 — Prepare data (Week 1)
+Default training uses **PEFT + TRL**. Unsloth is optional (`requirements-unsloth.txt`).
 
-First get Hugging Face access to the gated Arena dataset:
+### 1. Prepare data
+
+The Arena dataset is gated. Authenticate first:
 
 1. Create a Read token: https://huggingface.co/settings/tokens  
-2. Accept dataset terms: https://huggingface.co/datasets/lmsys/chatbot_arena_conversations  
-3. Login:
+2. Accept terms: https://huggingface.co/datasets/lmsys/chatbot_arena_conversations  
+3. Login (do **not** commit tokens):
 
-```powershell
+```bash
 huggingface-cli login
-# or:  $env:HF_TOKEN = "hf_xxxxxxxx"
+# or set HF_TOKEN in your environment for the session only
 ```
 
-Check access, then prepare splits:
-
-```powershell
+```bash
 python scripts/01a_check_arena_access.py
 python scripts/01_prepare_data.py --config configs/data.yaml
 ```
 
-What this does:
-- Loads `lmsys/chatbot_arena_conversations` via `datasets.load_dataset`
-- Keeps English, single-turn, clear winners, no ties, length-capped
-- Writes train / val / test JSONL under `data/processed/`
-- Optionally fetches JudgeBench for the external challenge set
+This writes filtered train/val/test JSONL under `data/processed/`, builds the bias suite, and attempts JudgeBench (falls back to a tiny seed if unavailable).
 
-### Step 2 — Baseline judges (Week 1)
+### 2. Baselines
 
-```powershell
+```bash
 python scripts/02_run_baseline.py --config configs/baseline_0.6b.yaml
 python scripts/02_run_baseline.py --config configs/baseline_1.7b.yaml
 ```
 
-Measures accuracy, macro-F1, position consistency, conflict rate, invalid-output rate, latency, peak VRAM.
+### 3. Smoke QLoRA, then full train
 
-### Step 3 — Smoke-train QLoRA (Week 2 start)
-
-```powershell
+```bash
 python scripts/03_train_qlora.py --config configs/train_smoke.yaml
-```
-
-500 examples, 1 epoch, seq 512 — proves the pipeline fits in 6 GB VRAM.
-
-### Step 4 — Full QLoRA train (Week 2)
-
-```powershell
 python scripts/03_train_qlora.py --config configs/train_qlora.yaml
 ```
 
-3,000 examples, 2 epochs. Adapter saved to `outputs/qlora_1.7b/`.
+### 4. Evaluate
 
-### Step 5 — Evaluate reliability (Week 3)
-
-```powershell
+```bash
 python scripts/04_evaluate.py --config configs/eval_qlora.yaml
 python scripts/04_evaluate.py --config configs/eval_qlora_reliability.yaml
 python scripts/05_bias_suite_eval.py --config configs/eval_bias.yaml
 ```
 
-### Step 6 — Tests
+### 5. Tests + dashboard
 
-```powershell
+```bash
 pytest -q
-```
-
-### Step 7 — Dashboard
-
-After any experiment, rebuild the local HTML dashboard (aggregates all `outputs/`):
-
-```powershell
 python scripts/07_build_dashboard.py --open
 ```
 
-Opens `outputs/dashboard.html` with comparison table + accuracy / consistency / latency / VRAM charts. Also open the Cursor canvas [minijudge-results](canvases) beside chat for the live summary.
+### One-shot
 
-### One-shot (after Step 0)
-
-```powershell
+```bash
 python scripts/run_pipeline.py --stage all
 ```
 
@@ -116,7 +103,7 @@ Stages: `data` → `baseline` → `smoke` → `train` → `eval` → `bias`.
 
 ---
 
-## Metrics reported
+## Metrics
 
 | Metric | Meaning |
 |---|---|
@@ -130,6 +117,8 @@ Stages: `data` → `baseline` → `smoke` → `train` → `eval` → `bias`.
 | Peak VRAM | Max GPU memory used |
 | Training time | Fine-tuning wall time |
 
+Saved snapshots: [`results/final/SUMMARY.md`](results/final/SUMMARY.md).
+
 ---
 
 ## Project layout
@@ -141,13 +130,22 @@ scripts/          Runnable entry points
 tests/            Parser / swap / metrics unit tests
 data/             Raw + processed datasets (gitignored)
 outputs/          Checkpoints + metric JSON (gitignored)
+results/final/    Committed Arena + bias result snapshots
 ```
 
 ---
 
-## What we deliberately skip (v1)
+## Security notes
 
-7B models · paid teacher labels · A/B/TIE · rationale training · RL · Gradio UI · ten benchmarks.
+- Never commit Hugging Face tokens, API keys, or `.env` files with secrets.
+- `.env` is gitignored; `.env.example` contains placeholders only.
+- Model weights under `outputs/` are gitignored.
+
+---
+
+## Out of scope (v1)
+
+7B models · paid teacher labels · A/B/TIE · rationale training · RL · Gradio UI · large multi-benchmark suites.
 
 Prove A-vs-B classification first; everything else is a later ablation.
 
@@ -156,11 +154,9 @@ Prove A-vs-B classification first; everything else is a later ablation.
 ## Docs
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — system design
-- [STEPS.md](STEPS.md) — week-by-week runbook
+- [STEPS.md](STEPS.md) — detailed runbook
 - [RESULTS.md](RESULTS.md) — metrics table
-- [results/final/SUMMARY.md](results/final/SUMMARY.md) — **saved Arena + Bias final snapshot**
-- `outputs/dashboard.html` — live local dashboard (regenerated)
-- `results/final/dashboard.html` — frozen dashboard copy
+- [results/final/SUMMARY.md](results/final/SUMMARY.md) — Arena + bias snapshot
 
 ---
 
@@ -168,5 +164,4 @@ Prove A-vs-B classification first; everything else is a later ablation.
 
 This project is released under the [MIT License](LICENSE).
 
-**Note:** Third-party models and datasets keep their own licenses (e.g. Qwen3 Apache-2.0; LMSYS Chatbot Arena / JudgeBench terms on their Hugging Face or GitHub pages). Review those before redistribution of derived weights or data.
-
+Third-party models and datasets keep their own licenses (e.g. Qwen3 Apache-2.0; LMSYS Chatbot Arena / JudgeBench terms on their Hugging Face or GitHub pages). Review those before redistributing derived weights or data.

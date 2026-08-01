@@ -1,7 +1,7 @@
 # MiniJudge Architecture
 
 **Project:** Can a 1.7B model become a reliable LLM-as-a-Judge?  
-**Hardware target:** RTX 4050 Laptop (~6 GB VRAM)  
+**Hardware target:** Consumer NVIDIA GPUs (~6–8 GB VRAM)  
 **Stack:** Qwen3 + 4-bit QLoRA (PEFT/TRL) + local eval (no paid APIs)
 
 ---
@@ -302,7 +302,7 @@ outputs/
 
 ## 11. Out of scope (v1)
 
-- 7B fine-tuning on 6 GB  
+- 7B fine-tuning on small consumer GPUs without aggressive quantization  
 - GPT-4 / Claude labels  
 - A/B/TIE three-class  
 - Rationale / CoT targets  

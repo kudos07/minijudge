@@ -3,7 +3,7 @@
 Snapshot of completed experiments. Raw metric JSON lives in this folder; narrative summary below.
 
 **Saved:** 2026-08-02  
-**Hardware:** RTX 4050 Laptop (~6 GB VRAM)  
+**Hardware (reference run):** consumer NVIDIA GPU, ~6–8 GB VRAM class  
 **Model:** Qwen/Qwen3-1.7B (+ QLoRA adapter)
 
 ---

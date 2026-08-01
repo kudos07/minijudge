@@ -2,7 +2,7 @@
 
 This document explains **what each step does, why it matters, and what you should look at**.
 
-Your GPU: **RTX 4050 Laptop ~6 GB VRAM**. All configs already use 4-bit loading, batch size 1, and short sequences.
+Configs target **consumer NVIDIA GPUs (~6–8 GB VRAM)** with 4-bit loading, batch size 1, and short sequences.
 
 ---
 
@@ -28,10 +28,11 @@ Two test worlds:
 
 ## Step 0 — Environment
 
-```powershell
-cd c:\Users\saran\Videos\LLM-as-a-judge
+```bash
+cd /path/to/minijudge
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+# Windows: .\.venv\Scripts\Activate.ps1
+# Linux/macOS: source .venv/bin/activate
 pip install -U pip wheel
 pip install -r requirements.txt
 pip install -e .
@@ -123,7 +124,7 @@ python scripts/02_run_baseline.py --config configs/baseline_1.7b.yaml --max-exam
 | Position consistency | Same winner after swapping A↔B |
 | Conflict rate | Preference flips after swap |
 | Invalid-output rate | Did not produce A or B |
-| Latency / Peak VRAM | Practicality on your laptop |
+| Latency / Peak VRAM | Practicality on consumer GPUs |
 
 **Why position swap already at baseline:** Tiny models often have strong “always pick A” bias. Catching that early is part of the story.
 
@@ -139,7 +140,7 @@ python scripts/03_train_qlora.py --config configs/train_smoke.yaml
 
 **Settings:** 500 examples · 1 epoch · seq 512 · LoRA rank 8 · 4-bit base
 
-**Goal:** Prove training fits in 6 GB and the loss moves — not publishable numbers yet.
+**Goal:** Prove training fits in limited VRAM and the loss moves — not publishable numbers yet.
 
 If you OOM:
 
@@ -222,7 +223,7 @@ That table **is** the project deliverable.
 
 ## What not to do yet
 
-- 7B fine-tuning on 6 GB
+- 7B fine-tuning on small consumer GPUs without aggressive quantization
 - Paid teacher labels (GPT-4/Claude)
 - A/B/TIE three-class training
 - Rationale / CoT targets
